@@ -1,7 +1,5 @@
 package Services;
 
-import java.util.ArrayList;
-
 import Models.Personne;
 import Models.Telephonne;
 import Persistance.TelephonneDAO;
@@ -9,19 +7,22 @@ import Persistance.TelephonneDAO;
 public class TelephoneService {
     private TelephonneDAO telephoneDAO;
 
-    public TelephoneService(TelephonneDAO telephoneDAO) {
-        this.telephoneDAO = telephoneDAO;
+    public TelephoneService() {
     }
 
     public void ajouterTelephone(Personne personne, Telephonne telephone) {
-        telephoneDAO.ajouterTelephone(personne, telephone);
+        telephoneDAO.ajouterTelephonne(personne, telephone);
     }
 
-    public void listerTelephones(Personne personne) {
-        telephoneDAO.listerTelephones(personne);
+    public void listerTelephones() {
+        telephoneDAO.getAllTelephonne();
     }
 
-    public void supprimerTelephone(Personne personne, Telephonne telephone) {
-        telephoneDAO.supprimerTelephone(personne, telephone);
+    public void supprimerTelephone(int personneID) {
+        telephoneDAO.deleteTelephonne(personneID);
+    }
+
+    public void modifierTelephone(Telephonne telephone) {
+        telephoneDAO.updateTelephonne(telephone);
     }
 }

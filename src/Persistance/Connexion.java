@@ -7,9 +7,8 @@ import java.sql.SQLException;
 public class Connexion {
 
     private static Connection conn = null;
-    static String url = "jdbc:mysql://localhost:3306/";
-    static String dataBaseName = "jdbc:mysql://localhost:3306/";
-    static String userName = "root";
+    static String url = "jdbc:mysql:// 127.0.0.1:3306/annuaire";
+    static String userName = "aziz";
     static String passwod = "";
 
     public static Connection getConnection() {
@@ -19,15 +18,16 @@ public class Connexion {
 
         try {
             // Charger la classe de pilote (driver)
-            Class.forName("com.mysql.jdbc.Driver");
-
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // com.mysql.jdbc.Driver
+            // com.mysql.cj.jdbc.Driver
             // Établir la connexion avec la base de données
             conn = DriverManager.getConnection(
-                    url + dataBaseName, userName, passwod);
+                    url, userName, passwod);
 
             System.out.println("Connexion réussie");
         } catch (ClassNotFoundException | SQLException e) {
-            System.out.println("Connexion échouée : " + e.getMessage());
+            System.out.println("Connexion échouée : " + e);
         }
 
         return conn;

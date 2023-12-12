@@ -160,15 +160,15 @@ public class PersonneDAOImpl implements PersonneDAO {
 
         try {
             connection = Connexion.getConnection();
-            String sql = "UPDATE personne SET nom = ?, prenom = ? WHERE cin = ?";
+            String sql = "INSERT INTO personne (cin, nom, prenom) VALUES (?, ?, ?)";
             preparedStatement = connection.prepareStatement(sql);
 
             // Set values for the PreparedStatement
-            preparedStatement.setString(1, personne.getNom());
-            preparedStatement.setString(2, personne.getPrenom());
-            preparedStatement.setInt(3, personne.getCin());
+            preparedStatement.setInt(1, personne.getCin());
+            preparedStatement.setString(2, personne.getNom());
+            preparedStatement.setString(3, personne.getPrenom());
 
-            // Execute the update
+            // Execute the insert
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -184,7 +184,6 @@ public class PersonneDAOImpl implements PersonneDAO {
                 e.printStackTrace();
             }
         }
-
     }
 
 }

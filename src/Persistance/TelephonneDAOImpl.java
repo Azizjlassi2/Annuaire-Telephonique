@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import Models.Personne;
 import Models.Telephonne;
 
 public class TelephonneDAOImpl implements TelephonneDAO {
@@ -124,19 +125,52 @@ public class TelephonneDAOImpl implements TelephonneDAO {
     }
 
     @Override
-    public void deleteTelephonne(int valeur) {
+    public void deleteTelephonne(int personne_id) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
         try {
             connection = Connexion.getConnection();
-            String sql = "DELETE FROM telephonne WHERE valeur = ?";
+            String sql = "DELETE FROM telephonne WHERE personne_id = ?";
             preparedStatement = connection.prepareStatement(sql);
 
             // Set the value for the PreparedStatement
-            preparedStatement.setInt(1, valeur);
+            preparedStatement.setInt(1, personne_id);
 
             // Execute the delete
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close resources in reverse order of creation
+            try {
+                if (preparedStatement != null)
+                    preparedStatement.close();
+                if (connection != null)
+                    connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void ajouterTelephonne(Personne personne, Telephonne telephone) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = Connexion.getConnection();
+            String sql = "INSERT INTO telephonne (valeur, type, personne_id) VALUES (?, ?, ?)";
+            preparedStatement = connection.prepareStatement(sql);
+
+            // Set values for the PreparedStatement
+            preparedStatement.setInt(1, telephone.getValeur());
+            preparedStatement.setString(2, telephone.getType());
+            preparedStatement.setInt(3, personne.getCin());
+
+            // Execute the insert
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {

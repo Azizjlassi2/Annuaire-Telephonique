@@ -1,0 +1,52 @@
+/* style.css */
+
+/* Style du fond de la fenêtre */
+.root {
+    -fx-background-color: #f4f4f4;
+}
+
+/* Style du titre de l'application */
+#title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px;
+}
+
+/* Style des labels */
+.label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 5px;
+}
+
+/* Style des boutons */
+.button {
+    -fx-font-size: 12px;
+    -fx-background-color: #3498db;
+    -fx-text-fill: #ffffff;
+    -fx-padding: 5px 10px;
+}
+
+/* Style des champs de texte */
+.text-field {
+    -fx-font-size: 12px;
+    -fx-padding: 5px 10px;
+}
+
+/* Style des boutons radio */
+.radio-button {
+    -fx-font-size: 12px;
+    -fx-padding: 5px 10px;
+}
+
+/* Style du conteneur VBox */
+.vbox {
+    -fx-spacing: 10px;
+    -fx-padding: 20px;
+}
+
+/* Style du conteneur GridPane */
+.grid-pane {
+    -fx-hgap: 10px;
+    -fx-vgap: 10px;
+}

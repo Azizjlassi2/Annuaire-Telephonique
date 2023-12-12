@@ -1,6 +1,5 @@
 package Services;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import Persistance.PersonneDAO;
@@ -10,24 +9,27 @@ import Models.Personne;
 public class PersonneService {
     private PersonneDAO personneDAO;
 
-    public PersonneService(PersonneDAO personneDAO) {
-        this.personneDAO = personneDAO;
+    public PersonneService() {
     }
 
     public void ajouterPersonne(Personne personne) {
         personneDAO.ajouterPersonne(personne);
     }
 
+    public Personne selectionnerPersonne(int cin) {
+        return personneDAO.getPersonne(cin);
+    }
+
     public void modifierPersonne(Personne personne) {
-        personneDAO.modifierPersonne(personne);
+        personneDAO.updatePersonne(personne);
     }
 
     public void supprimerPersonne(Personne personne) {
-        personneDAO.supprimerPersonne(personne);
+        personneDAO.deletePersonne(personne.getCin());
     }
 
     public List<Personne> listerPersonnes() {
-        return personneDAO.listerPersonnes();
-    }
+        return personneDAO.getAllPersonne();
 
+    }
 }

@@ -11,6 +11,12 @@ public class Telephonne {
         this.cinPersonne = cinPersonne;
     }
 
+    public Telephonne(int valeur, int cinPersonne) {
+        this.valeur = valeur;
+        this.type = null;
+        this.cinPersonne = cinPersonne;
+    }
+
     public int getValeur() {
         return valeur;
     }

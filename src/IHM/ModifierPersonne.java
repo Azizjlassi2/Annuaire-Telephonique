@@ -1,6 +1,7 @@
 import Models.Personne;
 import Models.Telephonne;
-import Services.*;
+import Services.PersonneService;
+import Services.TelephoneService;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -13,12 +14,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class AjoutPersonne extends Application implements EventHandler<ActionEvent> {
+public class ModifierPersonne extends Application implements EventHandler<ActionEvent> {
 
-    Button ajout;
+    Button modifier;
     Button annuler;
 
     RadioButton c1;
@@ -48,8 +50,8 @@ public class AjoutPersonne extends Application implements EventHandler<ActionEve
     public void start(Stage primaryStage) throws Exception {
         try {
 
-            ajout = new Button("Ajouter");
-            ajout.setOnAction(this);
+            modifier = new Button("modifier");
+            modifier.setOnAction(this);
             annuler = new Button("Annuler");
             annuler.setOnAction(this);
 
@@ -79,7 +81,6 @@ public class AjoutPersonne extends Application implements EventHandler<ActionEve
             v.getChildren().add(c3);
 
             root = new GridPane();
-
             root.add(cinLabel, 0, 0);
             root.add(cinField, 1, 0);
 
@@ -95,15 +96,14 @@ public class AjoutPersonne extends Application implements EventHandler<ActionEve
             root.add(civiliteLabel, 0, 4);
             root.add(v, 1, 4);
 
-            root.add(ajout, 0, 5);
+            root.add(modifier, 0, 5);
             root.add(annuler, 1, 5);
-
             Scene scene = new Scene(root, 300, 300);
 
             // Appliquer le style CSS
             scene.getStylesheets().add(getClass().getResource("css/style.css").toExternalForm());
 
-            primaryStage.setTitle("Ajouter Personne");
+            primaryStage.setTitle("Modifier Personne");
             primaryStage.centerOnScreen();
 
             primaryStage.setScene(scene);
@@ -117,8 +117,8 @@ public class AjoutPersonne extends Application implements EventHandler<ActionEve
 
     @Override
     public void handle(ActionEvent event) {
-        if (event.getSource() == ajout) {
-            System.out.println("Ajouter button clicked");
+        if (event.getSource() == modifier) {
+            System.out.println("modifier button clicked");
             RadioButton selectedRadioButton = (RadioButton) toggleGroup.getSelectedToggle();
             if (selectedRadioButton != null) {
                 try {
@@ -131,7 +131,6 @@ public class AjoutPersonne extends Application implements EventHandler<ActionEve
                     }
                     String nom = nomField.getText();
                     String prenom = prenomField.getText();
-
                     int telephone = 0;
                     if (telephoneField.getText().length() == 8) {
 
@@ -143,32 +142,29 @@ public class AjoutPersonne extends Application implements EventHandler<ActionEve
                     String civilite = selectedRadioButton.getText();
 
                     // Test
-                    System.out.println("Ajouter button clicked with data:");
+                    System.out.println("modifier button clicked with data:");
                     System.out.println("CIN: " + cin);
                     System.out.println("NOM: " + nom);
                     System.out.println("PRENOM: " + prenom);
+                    System.out.println("CIVILITE: " + civilite);
                     System.out.println("TELEPHONE: " + telephone);
 
-                    System.out.println("CIVILITE: " + civilite);
-
                     try {
-                        // Service
                         PersonneService personneService = new PersonneService();
                         TelephoneService telephoneService = new TelephoneService();
 
-                        Personne existe = personneService.selectionnerPersonne(cin);
+                        Personne personne = personneService.selectionnerPersonne(cin);
+                        Telephonne telephonne = new Telephonne(telephone, cin);
 
-                        if (existe == null) {
+                        if (personne == null) {
+                            showError("Personne n'existe pas");
 
-                            Personne personne = new Personne(cin, nom, prenom, civilite);
-
-                            personneService.ajouterPersonne(personne);
-                            Telephonne telephonne = new Telephonne(telephone, cin);
-                            telephoneService.ajouterTelephone(personne, telephonne);
-
-                            showAlert("Personne ajouté avec succées");
                         } else {
-                            showError("Personne existe déja !");
+
+                            personneService.modifierPersonne(personne);
+                            telephoneService.modifierTelephone(telephonne);
+                            showAlert("Personne modifié avec succées ");
+
                         }
 
                     } catch (java.lang.NullPointerException e) {
@@ -179,7 +175,7 @@ public class AjoutPersonne extends Application implements EventHandler<ActionEve
                     showError("Please enter a valid integer for CIN.");
                 }
             } else {
-                showError("Please select a civilite before clicking Ajouter.");
+                showError("Please select a civilite before clicking modifierer.");
 
             }
         } else if (event.getSource() == annuler) {
@@ -205,4 +201,5 @@ public class AjoutPersonne extends Application implements EventHandler<ActionEve
         alert.setContentText(message);
         alert.showAndWait();
     }
+
 }
